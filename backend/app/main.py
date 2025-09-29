@@ -32,7 +32,10 @@ async def on_startup():
     # Create tables if they don't exist (simple and fine for this project)
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
-
+        
+@app.get("/")
+async def root():
+    return {"message": "Backend is running 🚀"}
 
 # Routers
 app.include_router(auth_router)
