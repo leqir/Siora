@@ -1,0 +1,33 @@
+[project]
+name = "calendar-backend"
+version = "0.1.0"
+description = "AI calendar assistant backend (FastAPI + PostgreSQL + Google Calendar)"
+readme = "README.md"
+requires-python = ">=3.11,<3.12"
+dependencies = [
+  "fastapi>=0.114",
+  "uvicorn[standard]>=0.30",
+  "sqlalchemy[asyncio]>=2.0",
+  "asyncpg>=0.29",
+  "pydantic>=2.8",
+  "pydantic-settings>=2.4",
+  "python-multipart>=0.0.9",
+  "authlib>=1.3.1",
+  "httpx>=0.27",
+  "sse-starlette>=2.1.3",
+  "itsdangerous>=2.2",
+  "dateparser>=1.2.0",
+  # optional LLM (streaming in /chat)
+  "openai>=1.40.0",
+]
+
+[tool.uv]
+dev-dependencies = [
+  "ruff>=0.6.5",
+  "pytest>=8.3",
+]
+
+[tool.ruff]
+line-length = 100
+select = ["E", "F", "I", "B"]
+target-version = "py311"

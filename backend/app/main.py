@@ -1,0 +1,40 @@
+from __future__ import annotations
+import asyncio
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from sqlalchemy.ext.asyncio import AsyncEngine
+from .db import Base, engine
+from .config import get_settings
+from .auth import router as auth_router
+from .calendar_api import router as calendar_router
+from .chat import router as chat_router
+
+settings = get_settings()
+app = FastAPI(title="AI Calendar Assistant (Backend)")
+
+# CORS so the Next.js frontend can call us
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[settings.frontend_origin],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
+@app.get("/healthz")
+async def healthz():
+    return {"ok": True}
+
+
+@app.on_event("startup")
+async def on_startup():
+    # Create tables if they don't exist (simple and fine for this project)
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
+
+
+# Routers
+app.include_router(auth_router)
+app.include_router(calendar_router)
+app.include_router(chat_router)
