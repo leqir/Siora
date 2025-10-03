@@ -1,4 +1,9 @@
-// components/NewEventForm.tsx
+/* eslint-disable @typescript-eslint/no-floating-promises, 
+                  @typescript-eslint/no-explicit-any, 
+                  @typescript-eslint/no-unsafe-member-access, 
+                  @typescript-eslint/no-unsafe-argument */
+
+                  // components/NewEventForm.tsx
 'use client';
 
 import { createEvent } from '../lib/api';

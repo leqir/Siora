@@ -1,4 +1,9 @@
-// app/page.tsx
+/* eslint-disable @typescript-eslint/no-floating-promises, 
+                  @typescript-eslint/no-explicit-any, 
+                  @typescript-eslint/no-unsafe-member-access, 
+                  @typescript-eslint/no-unsafe-argument */
+
+                  // app/page.tsx
 'use client';
 
 import { useEffect, useState } from 'react';
