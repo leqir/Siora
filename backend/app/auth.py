@@ -78,21 +78,13 @@ async def callback(request: Request, session: AsyncSession = Depends(get_db)):
     await session.commit()
 
     # Set signed session cookie with user.id (30 days)
-    resp = RedirectResponse(
-        url=f"{settings.frontend_origin}/auth/callback"
-    )
+    from urllib.parse import urlencode
 
-    resp.set_cookie(
-        "session",
-        value=sign_user_id(str(user.id)),
-        max_age=60 * 60 * 24 * 30,
-        httponly=True,
-        samesite="none",
-        secure=True,
-        domain=".vercel.app"  # ✅ ensures cookie is visible to frontend
-    )
+    session_token = sign_user_id(str(user.id))
+    params = urlencode({"session": session_token})
+    frontend_redirect = f"{settings.frontend_origin}/auth/callback?{params}"
+    return RedirectResponse(url=frontend_redirect)
 
-    return resp
 
 
 

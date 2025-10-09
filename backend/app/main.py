@@ -1,6 +1,7 @@
 from __future__ import annotations
 import asyncio
 from fastapi import FastAPI
+from fastapi import Request
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.ext.asyncio import AsyncEngine
 from .db import Base, engine
@@ -50,6 +51,18 @@ async def on_startup():
 async def root():
     return {"message": "Backend is running 🚀"}
 
+@app.middleware("http")
+async def attach_user_from_header(request: Request, call_next):
+    auth = request.headers.get("Authorization")
+    if auth and auth.startswith("Bearer "):
+        token = auth.split(" ", 1)[1]
+        try:
+            user_id = verify_user_id(token)
+            request.state.user_id = user_id
+        except Exception:
+            request.state.user_id = None
+    response = await call_next(request)
+    return response
 # Routers
 app.include_router(auth_router)
 app.include_router(calendar_router)
