@@ -1,19 +1,20 @@
 'use client';
+
 export const dynamic = 'force-dynamic';
+export const fetchCache = 'force-no-store';
 
 import { Suspense, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Cookies from 'js-cookie';
 import Link from 'next/link';
 
-// Separate component that actually uses useSearchParams
+// Inner component (where useSearchParams is used)
 function CallbackInner() {
   const params = useSearchParams();
 
   useEffect(() => {
     const session = params.get('session');
     if (session) {
-      // Store session token locally for same-origin fetches
       Cookies.set('session', session, { expires: 30 });
     }
 
@@ -40,7 +41,7 @@ function CallbackInner() {
   );
 }
 
-// Wrapper with Suspense boundary
+// Parent component wrapped in Suspense
 export default function CallbackPage() {
   return (
     <Suspense fallback={<div>Loading connection status...</div>}>
