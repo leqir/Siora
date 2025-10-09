@@ -85,12 +85,14 @@ async def callback(request: Request, session: AsyncSession = Depends(get_db)):
     )
     resp.set_cookie(
         key="session",
-        value=session_token,
+        value=sign_user_id(str(user.id)),
         max_age=60 * 60 * 24 * 30,
         httponly=True,
+        samesite="none",
         secure=True,
-        samesite="none"
+        domain=".railway.app",  # ← important
     )
+
     return resp
 
 
