@@ -8,9 +8,12 @@ from .config import get_settings
 from .auth import router as auth_router
 from .calendar_api import router as calendar_router
 from .chat import router as chat_router
+from starlette.middleware.sessions import SessionMiddleware
+import os
 
 settings = get_settings()
 app = FastAPI(title="AI Calendar Assistant (Backend)")
+
 
 # CORS so the Next.js frontend can call us
 app.add_middleware(
@@ -21,7 +24,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
+app.add_middleware(
+    SessionMiddleware,
+    secret_key=os.environ["SECRET_KEY"]
+)
 @app.get("/healthz")
 async def healthz():
     return {"ok": True}
