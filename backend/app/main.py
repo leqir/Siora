@@ -6,6 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.ext.asyncio import AsyncEngine
 from .db import Base, engine
 from .config import get_settings
+from .utils import verify_user_id  # Import verify_user_id from utils or the appropriate module
 from .auth import router as auth_router
 from .calendar_api import router as calendar_router
 from .chat import router as chat_router

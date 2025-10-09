@@ -23,13 +23,24 @@ export async function getHealth() {
 
 // Get events (fixed URL + credentials)
 export async function getEvents() {
-  const res = await fetch(`${BASE}/events`, withCreds());
-  
-  if (res.status === 401) throw new Error("unauthorized");
-  if (!res.ok) throw new Error(`error ${res.status}`);
-  
-  return await res.json();
+  console.log("Fetching events from", `${process.env.NEXT_PUBLIC_BACKEND_URL}/events`);
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/events`, {
+    credentials: "include",
+  });
+
+  console.log("Response status:", res.status);
+  const txt = await res.text();
+  console.log("Response text:", txt);
+
+  if (res.status === 401) {
+    throw new Error("unauthorized");
+  }
+  if (!res.ok) {
+    throw new Error(`error ${res.status}`);
+  }
+  return JSON.parse(txt);
 }
+
 
 // Create new calendar event
 export async function createEvent(body: {
