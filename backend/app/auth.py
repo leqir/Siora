@@ -89,6 +89,10 @@ async def callback(request: Request, session: AsyncSession = Depends(get_db)):
         secure=True,                # must be True if you're using https on Vercel
         samesite="none",            # allow cross-domain cookie
     )
+
+    print("✅ Setting session cookie for user:", user.email)
+    print("Frontend redirecting to:", settings.frontend_origin)
+
     return resp
 
 
