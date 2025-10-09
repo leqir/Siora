@@ -80,20 +80,19 @@ async def callback(request: Request, session: AsyncSession = Depends(get_db)):
     # Set signed session cookie with user.id (30 days)
     # Set signed session cookie with user.id (30 days)
     session_token = sign_user_id(str(user.id))
-    resp = RedirectResponse(url=f"{settings.frontend_origin}/connected")
-    resp.set_cookie(
-        "session",
-        value=session_token,
-        max_age=60 * 60 * 24 * 30,  # 30 days
-        httponly=True,
-        secure=True,                # must be True if you're using https on Vercel
-        samesite="none",            # allow cross-domain cookie
+    resp = RedirectResponse(
+        url=f"{settings.frontend_origin}/connected"
     )
-
-    print("✅ Setting session cookie for user:", user.email)
-    print("Frontend redirecting to:", settings.frontend_origin)
-
+    resp.set_cookie(
+        key="session",
+        value=session_token,
+        max_age=60 * 60 * 24 * 30,
+        httponly=True,
+        secure=True,
+        samesite="none"
+    )
     return resp
+
 
 
 
