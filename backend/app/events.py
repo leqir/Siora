@@ -2,7 +2,8 @@ from fastapi import APIRouter, Depends, Request
 from starlette.responses import JSONResponse
 
 # Import or define verify_user_id
-from app.utils.auth import verify_user_id  # Adjust the import path as needed
+from app.utils import verify_user_id
+
 
 router = APIRouter()
 
