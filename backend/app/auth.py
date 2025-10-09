@@ -78,12 +78,18 @@ async def callback(request: Request, session: AsyncSession = Depends(get_db)):
     await session.commit()
 
     # Set signed session cookie with user.id (30 days)
-    from urllib.parse import urlencode
-
+    # Set signed session cookie with user.id (30 days)
     session_token = sign_user_id(str(user.id))
-    params = urlencode({"session": session_token})
-    frontend_redirect = f"{settings.frontend_origin}/auth/callback?{params}"
-    return RedirectResponse(url=frontend_redirect)
+    resp = RedirectResponse(url=f"{settings.frontend_origin}/connected")
+    resp.set_cookie(
+        "session",
+        value=session_token,
+        max_age=60 * 60 * 24 * 30,  # 30 days
+        httponly=True,
+        secure=True,                # must be True if you're using https on Vercel
+        samesite="none",            # allow cross-domain cookie
+    )
+    return resp
 
 
 
