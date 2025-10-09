@@ -6,6 +6,7 @@
                   // app/page.tsx
 'use client';
 
+import React from "react";
 import { useEffect, useState } from 'react';
 import LoginCard from '../components/LoginCard';
 import Chat from '../components/Chat';

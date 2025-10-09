@@ -17,14 +17,22 @@ export async function getHealth() {
   return r.ok;
 }
 
-export async function getEvents(): Promise<
-  { events: { id: string; summary?: string; start_iso?: string; end_iso?: string; status?: string }[] }
-> {
-  const r = await fetch(`${BASE}/calendar/events`, withCreds());
-  if (r.status === 401) throw new Error('unauthorized');
-  if (!r.ok) throw new Error('failed');
-  return r.json();
+export async function getEvents() {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/events`, {
+    credentials: "include",
+  });
+
+  if (res.status === 401) {
+    throw new Error("unauthorized");
+  }
+
+  if (!res.ok) {
+    throw new Error(`error ${res.status}`);
+  }
+
+  return await res.json();
 }
+
 
 export async function createEvent(body: {
   summary: string;
