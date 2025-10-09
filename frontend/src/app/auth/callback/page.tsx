@@ -1,11 +1,12 @@
 'use client';
 
-import { useEffect } from 'react';
+import { Suspense, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Cookies from 'js-cookie';
 import Link from 'next/link';
 
-export default function CallbackPage() {
+// Separate component that actually uses useSearchParams
+function CallbackInner() {
   const params = useSearchParams();
 
   useEffect(() => {
@@ -35,5 +36,14 @@ export default function CallbackPage() {
         </Link>
       </div>
     </main>
+  );
+}
+
+// Wrapper with Suspense boundary
+export default function CallbackPage() {
+  return (
+    <Suspense fallback={<div>Loading connection status...</div>}>
+      <CallbackInner />
+    </Suspense>
   );
 }
