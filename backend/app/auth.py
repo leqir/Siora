@@ -79,8 +79,9 @@ async def callback(request: Request, session: AsyncSession = Depends(get_db)):
 
     # Set signed session cookie with user.id (30 days)
     resp = RedirectResponse(
-        url=f"{settings.frontend_origin}/connected"
-    )  # your front-end can read this state
+        url=f"{settings.frontend_origin}/auth/callback"
+    )
+
     resp.set_cookie(
         "session",
         value=sign_user_id(str(user.id)),
