@@ -9,6 +9,7 @@ from .config import get_settings
 from .db import get_db
 from .models import User
 from .utils import sign_user_id
+import os
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
@@ -21,6 +22,7 @@ oauth.register(
     client_secret=settings.google_client_secret,
     access_token_url="https://oauth2.googleapis.com/token",
     authorize_url="https://accounts.google.com/o/oauth2/v2/auth",
+    server_metadata_url="https://accounts.google.com/.well-known/openid-configuration",
     client_kwargs={
         "scope": "openid email profile https://www.googleapis.com/auth/calendar.events",
         "prompt": "consent",

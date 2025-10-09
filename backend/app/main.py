@@ -9,6 +9,7 @@ from .auth import router as auth_router
 from .calendar_api import router as calendar_router
 from .chat import router as chat_router
 from starlette.middleware.sessions import SessionMiddleware
+from starlette.middleware.cors import CORSMiddleware
 import os
 
 settings = get_settings()
@@ -26,7 +27,7 @@ app.add_middleware(
 
 app.add_middleware(
     SessionMiddleware,
-    secret_key=os.environ["SECRET_KEY"]
+    secret_key=settings.secret_key
 )
 @app.get("/healthz")
 async def healthz():
