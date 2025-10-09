@@ -3,12 +3,12 @@ const BASE = process.env.NEXT_PUBLIC_BACKEND_URL!;
 import Cookies from 'js-cookie';
 
 function withCreds(init?: RequestInit): RequestInit {
-  const token = Cookies.get('session');
+  
   return {
     ...init,
+    credentials: "include",      // <--- this line matters
     headers: {
-      'Content-Type': 'application/json',
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      "Content-Type": "application/json",
       ...(init?.headers || {}),
     },
   };
