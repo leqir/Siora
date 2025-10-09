@@ -13,6 +13,7 @@ class Settings(BaseSettings):
 
     google_client_id: str
     google_client_secret: str
+    google_redirect_uri: str
 
     openai_api_key: str | None = None
 
@@ -29,5 +30,6 @@ def get_settings() -> Settings:
         backend_url=os.environ.get("BACKEND_URL", "http://localhost:8000"),
         google_client_id=os.environ["GOOGLE_CLIENT_ID"],
         google_client_secret=os.environ["GOOGLE_CLIENT_SECRET"],
+        google_redirect_uri=os.environ["GOOGLE_REDIRECT_URI"],
         openai_api_key=os.environ.get("OPENAI_API_KEY"),
     )
