@@ -1,16 +1,19 @@
 // lib/api.ts
 const BASE = process.env.NEXT_PUBLIC_BACKEND_URL!;
+import Cookies from 'js-cookie';
 
 function withCreds(init?: RequestInit): RequestInit {
+  const token = Cookies.get('session');
   return {
     ...init,
-    credentials: 'include', // ✅ ensures cookies are sent
     headers: {
       'Content-Type': 'application/json',
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
       ...(init?.headers || {}),
     },
   };
 }
+
 
 // Health check
 export async function getHealth() {
