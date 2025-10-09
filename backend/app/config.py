@@ -26,10 +26,10 @@ def get_settings() -> Settings:
     return Settings(
         database_url=os.environ.get("DATABASE_URL", ""),
         secret_key=os.environ["SECRET_KEY"],
-        frontend_origin=os.environ.get("FRONTEND_ORIGIN", "http://localhost:3000"),
-        backend_url=os.environ.get("BACKEND_URL", "http://localhost:8000"),
+        frontend_origin=os.environ.get("FRONTEND_ORIGIN", "https://siora-two.vercel.app"),
+        backend_url=os.environ.get("BACKEND_URL", "https://siora-production.up.railway.app"),
         google_client_id=os.environ["GOOGLE_CLIENT_ID"],
         google_client_secret=os.environ["GOOGLE_CLIENT_SECRET"],
-        google_redirect_uri=os.environ["GOOGLE_REDIRECT_URI"],
+        google_redirect_uri=os.environ["GOOGLE_REDIRECT_URI", "https://siora-production.up.railway.app/auth/callback"],
         openai_api_key=os.environ.get("OPENAI_API_KEY"),
     )
