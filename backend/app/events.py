@@ -9,7 +9,10 @@ router = APIRouter()
 
 @router.get("/events")
 async def list_events(request: Request):
+    
     cookie = request.cookies.get("session")
+    print("⚙️ Cookies received:", request.cookies)
+
     if not cookie:
         print("⚠️ No session cookie received!")
         return {"error": "unauthorized"}, 401
