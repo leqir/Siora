@@ -22,9 +22,21 @@ app = FastAPI(title="AI Calendar Assistant (Backend)")
 
 # CORS so the Next.js frontend can call us
 
+from fastapi.middleware.cors import CORSMiddleware
+from .config import get_settings
+
+settings = get_settings()
+# Routers
+app.include_router(auth_router)
+app.include_router(calendar_router)
+app.include_router(chat_router)
+app.include_router(events_router)
+
+print("🟢 CORS configured for:", settings.frontend_origin)
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://siora-two.vercel.app"],
+    allow_origins=[settings.frontend_origin],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -66,8 +78,3 @@ async def attach_user_from_header(request: Request, call_next):
             request.state.user_id = None
     response = await call_next(request)
     return response
-# Routers
-app.include_router(auth_router)
-app.include_router(calendar_router)
-app.include_router(chat_router)
-app.include_router(events_router)
