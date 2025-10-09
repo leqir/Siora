@@ -29,11 +29,11 @@ oauth.register(
     },
 )
 
-
 @router.get("/login")
 async def login(request: Request):
-    redirect_uri = settings.callback_url()
+    redirect_uri = settings.google_redirect_uri
     return await oauth.google.authorize_redirect(request, redirect_uri)
+
 
 
 @router.get("/callback")

@@ -95,3 +95,8 @@ async def chat_stream(
         yield {"event": "done", "data": ""}
 
     return EventSourceResponse(event_gen())
+
+@router.get("/stream")
+async def chat_stream_get(message: str, user: User = Depends(get_current_user), session: AsyncSession = Depends(get_db)):
+    body = ChatIn(conversation_id=None, message=message)
+    return await chat_stream(body, user, session)  # reuse the POST streaming function
