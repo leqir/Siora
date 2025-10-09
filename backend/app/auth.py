@@ -88,8 +88,10 @@ async def callback(request: Request, session: AsyncSession = Depends(get_db)):
         max_age=60 * 60 * 24 * 30,
         httponly=True,
         samesite="none",
-        secure=True,  # required if frontend is on https domain
+        secure=True,
+        domain=".vercel.app"  # ✅ ensures cookie is visible to frontend
     )
+
     return resp
 
 

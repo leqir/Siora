@@ -29,8 +29,12 @@ app.add_middleware(
 
 app.add_middleware(
     SessionMiddleware,
-    secret_key=settings.secret_key
+    secret_key=settings.secret_key,
+    same_site="none",    # ✅ required for cross-site cookies
+    https_only=True,     # ✅ required for SameSite=None
 )
+
+
 @app.get("/healthz")
 async def healthz():
     return {"ok": True}
