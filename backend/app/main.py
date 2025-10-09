@@ -8,6 +8,8 @@ from .config import get_settings
 from .auth import router as auth_router
 from .calendar_api import router as calendar_router
 from .chat import router as chat_router
+from .events import router as events_router
+
 from starlette.middleware.sessions import SessionMiddleware
 from starlette.middleware.cors import CORSMiddleware
 import os
@@ -48,3 +50,4 @@ async def root():
 app.include_router(auth_router)
 app.include_router(calendar_router)
 app.include_router(chat_router)
+app.include_router(events_router)

@@ -27,10 +27,12 @@ export default function HomePage() {
         setConnected(true);
         setEvents(events);
       } catch (e: any) {
-        if (e?.message === 'unauthorized') {
+        console.error("Error fetching events:", e);
+        // Show login only if unauthorized or backend unreachable
+        if (e?.message?.includes("unauthorized") || e?.message?.includes("401")) {
           setConnected(false);
         } else {
-          setConnected(true); // backend could be up but empty or error; still show UI
+          setConnected(false);
         }
       }
     })();

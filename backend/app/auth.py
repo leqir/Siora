@@ -9,6 +9,7 @@ from .config import get_settings
 from .db import get_db
 from .models import User
 from .utils import sign_user_id
+from starlette.responses import JSONResponse
 import os
 
 router = APIRouter(prefix="/auth", tags=["auth"])
@@ -34,6 +35,7 @@ oauth.register(
 @router.get("/login")
 async def login(request: Request):
     redirect_uri = settings.google_redirect_uri
+    print("Redirecting to:", redirect_uri)  # confirm it
     return await oauth.google.authorize_redirect(request, redirect_uri)
 
 
@@ -88,6 +90,7 @@ async def callback(request: Request, session: AsyncSession = Depends(get_db)):
         secure=True,  # required if frontend is on https domain
     )
     return resp
+
 
 
 @router.post("/logout")
