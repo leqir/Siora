@@ -30,6 +30,6 @@ def get_settings() -> Settings:
         backend_url=os.environ.get("BACKEND_URL", "https://siora-production.up.railway.app"),
         google_client_id=os.environ["GOOGLE_CLIENT_ID"],
         google_client_secret=os.environ["GOOGLE_CLIENT_SECRET"],
-        google_redirect_uri=os.environ["GOOGLE_REDIRECT_URI", "https://siora-production.up.railway.app/auth/callback"],
+        google_redirect_uri=os.environ.get("GOOGLE_REDIRECT_URI", "https://siora-production.up.railway.app/auth/callback"),
         openai_api_key=os.environ.get("OPENAI_API_KEY"),
     )
